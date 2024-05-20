@@ -14,7 +14,7 @@ export default function AdminListPage() {
   const { data, refetch } = useQuery({
     queryKey: ['order'],
     queryFn: () => listOrdersAPI(),
-    enabled: true,
+    staleTime: 0,
     gcTime: 0,
   });
 
@@ -79,29 +79,41 @@ export default function AdminListPage() {
             </tr>
           </thead>
           <tbody>
-            {data && data.orders && data.orders.length > 0 ? (
-              data.orders.map((item: OrderType) => (
-                <tr
-                  key={item.id}
-                  className="border-b border-gray-200 dark:border-gray-700"
-                >
+            {data ? (
+              data.orders && data.orders.length > 0 ? (
+                data.orders.map((item: OrderType) => (
+                  <tr
+                    key={item.id}
+                    className="border-b border-gray-200 dark:border-gray-700"
+                  >
+                    <td
+                      scope="row"
+                      className="px-1 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
+                    >
+                      {item.username}
+                    </td>
+                    <td scope="row" className="px-1 py-4">
+                      {item.divide}
+                    </td>
+                    <td
+                      scope="row"
+                      className="px-1 py-4 bg-gray-50 dark:bg-gray-800"
+                    >
+                      {item.product}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
                   <td
                     scope="row"
-                    className="px-1 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
+                    className="py-4 bg-gray-50 dark:bg-gray-800"
+                    colSpan={4}
                   >
-                    {item.username}
-                  </td>
-                  <td scope="row" className="px-1 py-4">
-                    {item.divide}
-                  </td>
-                  <td
-                    scope="row"
-                    className="px-1 py-4 bg-gray-50 dark:bg-gray-800"
-                  >
-                    {item.product}
+                    데이터가 없습니다.
                   </td>
                 </tr>
-              ))
+              )
             ) : (
               <tr>
                 <td

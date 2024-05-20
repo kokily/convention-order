@@ -3,7 +3,11 @@ import db from '@/helper/database';
 
 export async function DELETE(_: NextRequest) {
   try {
-    const orders = await db.order.findMany();
+    const orders = await db.order.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+    });
 
     if (orders.length === 0) {
       return NextResponse.json(
